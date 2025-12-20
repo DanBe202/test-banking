@@ -1,0 +1,33 @@
+div {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+label {
+  color: #72777e;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #000;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-bottom-color: #6366f1;
+  }
+
+  &:focus + label,
+  &:focus-within ~ label {
+    color: #6366f1;
+  }
+}

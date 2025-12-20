@@ -1,0 +1,17 @@
+<a
+  class="account-row"
+  [routerLink]="['/accounts', account().id]">
+
+  <div class="icon-container">
+    <div class="card-icon">💳</div>
+  </div>
+
+  <div class="details">
+    <div class="account-name">{{ account().name }}</div>
+    <div class="account-number">{{ maskedNumber() }}</div>
+  </div>
+
+  <div class="balance-container">
+    <div class="balance">{{ account().balance | currency: 'EUR' }}</div>
+  </div>
+</a>

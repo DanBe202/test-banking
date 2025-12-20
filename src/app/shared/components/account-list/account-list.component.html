@@ -1,0 +1,11 @@
+<div class="scroll-container">
+  @if (!this.isLoading()) {
+    @for (account of this.accounts(); track account.id) {
+      <app-account [account]="account" />
+    }
+  } @else {
+    <div class="loading">
+      <h2>Loading</h2>
+    </div>
+  }
+</div>
