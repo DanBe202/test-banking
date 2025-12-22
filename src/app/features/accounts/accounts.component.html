@@ -1,9 +1,0 @@
-<div class="page-container">
-  <div class="header">
-    <div class="title">
-      <h2>My Accounts</h2>
-    </div>
-    <button class="btn-reload" (click)="this.reload()">Reload</button>
-  </div>
-  <app-account-list [isLoading]="this.accountService.isLoading()" [accounts]="this.accountList()"></app-account-list>
-</div>

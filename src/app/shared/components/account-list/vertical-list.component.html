@@ -1,0 +1,9 @@
+<div class="scroll-container">
+  @if (!isLoading()) {
+    <ng-content></ng-content>
+  } @else {
+    <div class="loading">
+      <h2>Loading</h2>
+    </div>
+  }
+</div>

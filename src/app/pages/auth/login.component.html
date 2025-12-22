@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="title">
+    <h1>Login</h1>
+  </div>
+  <div class="form">
+    <form [formGroup]="this.loginForm">
+      <app-line-input inputId="mail" label="Email Address" [control]="this.loginForm.controls.email"></app-line-input>
+      <app-line-input inputId="password" label="Password" type="password"
+                      [control]="this.loginForm.controls.password"></app-line-input>
+      @if (this.errorMessage()) {
+        <div class="error">{{ this.errorMessage() }}</div>
+      }
+      <button type="submit" [disabled]="!this.loginForm.valid" (click)="this.onSubmit()">Login</button>
+    </form>
+  </div>
+</div>
+

@@ -1,0 +1,18 @@
+<div class="page-container">
+  <div class="transactions-container">
+    <div class="header">
+      <div class="title">
+        <h2>My Transactions</h2>
+      </div>
+      <button class="btn-add" (click)="this.addTransaction()">Transfer money</button>
+    </div>
+    <app-vertical-list [isLoading]="this.isLoading()">
+      @if (this.transactions.length === 0) {
+        <p>No transactions found.</p>
+      }
+      @for (transaction of this.transactions; track transaction.id) {
+        <app-transaction [transaction]="transaction"/>
+      }
+    </app-vertical-list>
+  </div>
+</div>

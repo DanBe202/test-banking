@@ -1,0 +1,29 @@
+<div class="page-container">
+  <div class="tranfer-container">
+    <div class="header">
+      <div class="title">
+        <h2>Transfer Money</h2>
+      </div>
+    </div>
+    <div class="form">
+      <form [formGroup]="this.transactionForm">
+        <app-dropdown-selector [control]="this.transactionForm.controls.receiverId">
+          <option [ngValue]="null" disabled>Select a receiver</option>
+          @for (account of accountService.accounts(); track account.id) {
+            <option [ngValue]="account.id">
+              {{ account.name  }}
+            </option>
+          }
+        </app-dropdown-selector>
+        <app-line-input inputId="ammont"
+                        label="Ammount"
+                        type="number"
+                        [control]="this.transactionForm.controls.amount"/>
+        <app-line-input inputId="note"
+                        label="Notes"
+                        [control]="this.transactionForm.controls.note"/>
+        <button type="submit" [disabled]="!this.transactionForm.valid" (click)="this.onSubmit()">Transfer</button>
+      </form>
+    </div>
+  </div>
+</div>

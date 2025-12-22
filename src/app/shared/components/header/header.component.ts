@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthService} from '../../../core/auth/auth.service';
+import {LoginService} from '../../../pages/auth/login.service';
 
 @Component({
   selector: 'app-heder',
@@ -10,13 +10,10 @@ import {AuthService} from '../../../core/auth/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
-  constructor(
-    private authService: AuthService,
-    private router: Router) {}
+  protected authService = new LoginService();
+  private router = new Router();
 
-  token = localStorage.getItem('token');
-  isLoggedIn = !!this.token;
-  protected logout() {
+  logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
   }

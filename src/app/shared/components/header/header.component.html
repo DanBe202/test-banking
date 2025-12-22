@@ -1,6 +1,6 @@
 <div class="header">
   <h1>Banking app</h1>
-  @if (this.isLoggedIn) {
+  @if (this.authService.isLoggedIn()) {
     <div class="nav">
       <button class="btn-transparent" (click)="this.logout()">Logout</button>
     </div>

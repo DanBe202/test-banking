@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, computed, input} from '@angular/core';
-import {Account} from '../../../features/accounts/account.model';
+import {Account} from '../../../core/types/account.type';
 import {CurrencyPipe} from '@angular/common';
 import {RouterLink} from '@angular/router';
 

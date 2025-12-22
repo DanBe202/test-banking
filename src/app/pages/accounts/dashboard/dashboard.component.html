@@ -1,0 +1,18 @@
+<div class="page-container">
+  <div class="header">
+    <div class="title">
+      <h2>My Accounts</h2>
+    </div>
+    <button class="btn-reload" (click)="this.reload()">Reload</button>
+  </div>
+  <app-vertical-list [isLoading]="this.loading()">
+    @if (this.accounts().length === 0) {
+      <p>No accounts.</p>
+    }
+    @for (account of this.accounts(); track account.id) {
+      <app-account [account]="account" />
+    }
+  </app-vertical-list>
+
+</div>
+
