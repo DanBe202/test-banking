@@ -1,29 +1,42 @@
-<div class="page-container">
-  <div class="tranfer-container">
-    <div class="header">
-      <div class="title">
-        <h2>Transfer Money</h2>
-      </div>
-    </div>
-    <div class="form">
-      <form [formGroup]="this.transactionForm">
-        <app-dropdown-selector [control]="this.transactionForm.controls.receiverId">
-          <option [ngValue]="null" disabled>Select a receiver</option>
-          @for (account of accountService.accounts(); track account.id) {
-            <option [ngValue]="account.id">
-              {{ account.name  }}
-            </option>
-          }
-        </app-dropdown-selector>
-        <app-line-input inputId="ammont"
-                        label="Ammount"
-                        type="number"
-                        [control]="this.transactionForm.controls.amount"/>
-        <app-line-input inputId="note"
-                        label="Notes"
-                        [control]="this.transactionForm.controls.note"/>
-        <button type="submit" [disabled]="!this.transactionForm.valid" (click)="this.onSubmit()">Transfer</button>
+<section class="container">
+  <mat-card class="card" appearance="raised">
+    <mat-card-header>
+      <mat-card-title>Transfer money</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="form" [formGroup]="this.transferForm">
+        <mat-form-field>
+          <mat-label>Sender account</mat-label>
+          <mat-select [formControl]="this.transferForm.controls.senderId">
+            @for (account of accounts(); track account.id) {
+              <mat-option [value]="account.id">{{ account.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Receiver account</mat-label>
+          <mat-select [formControl]="this.transferForm.controls.receiverId">
+            @for (account of otherAccounts(); track account.id) {
+              <mat-option [value]="account.id">{{ account.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field floatLabel="always">
+          <mat-label>Amount</mat-label>
+          <input matInput type="number" placeholder="0" [formControl]="this.transferForm.controls.amount"/>
+          <span matTextPrefix>$&nbsp;</span>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Note</mat-label>
+          <textarea matInput [formControl]="this.transferForm.controls.note"></textarea>
+        </mat-form-field>
+        <button matButton="filled"
+                type="submit"
+                [disabled]="!this.transferForm.valid"
+                [routerLink]="['/', 'accounts', id()]"
+                (click)="this.onSubmit()">Transfer
+        </button>
       </form>
-    </div>
-  </div>
-</div>
+    </mat-card-content>
+  </mat-card>
+</section>

@@ -1,14 +1,23 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
-import {LineInputComponent} from '../../shared/components/line-input/line-input.component';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LoginService} from './login.service';
 import {Router} from '@angular/router';
+import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
+import {MatButton} from '@angular/material/button';
+import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 
 @Component({
   selector: 'app-auth',
   imports: [
-    LineInputComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatButton,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',

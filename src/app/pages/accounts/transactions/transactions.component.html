@@ -1,18 +1,66 @@
-<div class="page-container">
-  <div class="transactions-container">
+@if (this.account(); as account) {
+  <section class="container">
+    <div class="header">
+      <div class="title">
+        <h2>{{ account.name }}</h2>
+      </div>
+      <div class="title">
+        {{ account.balance | currency: 'EUR' }}
+      </div>
+    </div>
     <div class="header">
       <div class="title">
         <h2>My Transactions</h2>
       </div>
-      <button class="btn-add" (click)="this.addTransaction()">Transfer money</button>
+      <mat-form-field class="full-width">
+        <input matInput
+               [ngModel]="this.searchFilter()"
+               (ngModelChange)="onSearchChange($event)">
+      </mat-form-field>
+      <mat-select class="full-width"
+                  [ngModel]="this.typeFilter()"
+                  (ngModelChange)="onTypeChange($event)">
+        <mat-option value="ALL">All</mat-option>
+        <mat-option value="CREDIT">Credit</mat-option>
+        <mat-option value="DEBIT">Debit</mat-option>
+      </mat-select>
+      <button matButton="outlined" (click)="toggleSort()">
+        Sort: {{ this.sortNewestFirst() ? 'Newest' : 'Oldest' }}
+      </button>
+      <button matButton="filled" [routerLink]="['/', 'accounts', id(), 'transfer']">
+        <mat-icon>attach_money</mat-icon>
+        Transfer money
+      </button>
     </div>
-    <app-vertical-list [isLoading]="this.isLoading()">
-      @if (this.transactions.length === 0) {
-        <p>No transactions found.</p>
-      }
-      @for (transaction of this.transactions; track transaction.id) {
-        <app-transaction [transaction]="transaction"/>
-      }
-    </app-vertical-list>
-  </div>
-</div>
+    @if (loading()) {
+      <mat-spinner class="loading"></mat-spinner>
+    } @else {
+      <mat-nav-list>
+        @for (transaction of this.transactions(); track transaction.id) {
+          <mat-list-item>
+            <mat-icon matListItemIcon>credit_card</mat-icon>
+            <span matListItemTitle>{{ transaction.senderId }}
+              -> {{ transaction.receiverId }} {{ transaction.note }}</span>
+            <span matListItemMeta>{{ transaction.dateTime | date:'medium' }}</span>
+            <div matListItemMeta [style.color]="transaction.type === 'CREDIT' ? 'green' : 'red'">
+              @if (transaction.type === 'CREDIT') {
+                <span>+</span>
+              } @else {
+                <span>-</span>
+              }
+              <span>{{ transaction.amount | currency: 'EUR' }}</span>
+            </div>
+          </mat-list-item>
+        } @empty {
+          <h3>There are no transactions.</h3>
+        }
+      </mat-nav-list>
+    }
+    <mat-paginator [length]="account.transactions.length"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10]"
+                   (page)="handlePageEvent($event)"
+                   aria-label="Select page">
+    </mat-paginator>
+  </section>
+}

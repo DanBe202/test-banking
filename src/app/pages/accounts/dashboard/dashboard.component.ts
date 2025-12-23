@@ -1,19 +1,29 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
-import {VerticalListComponent} from '../../../shared/components/account-list/vertical-list.component';
-import {AccountComponent} from '../../../shared/components/account/account.component';
 import {DashboardService} from './dashboard.service';
+import {MatButton} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatListModule} from '@angular/material/list';
+import {RouterLink} from '@angular/router';
+import {MaskCardNumberPipe} from '../../../core/pipes/mask-card-number.pipe';
+import {CurrencyPipe} from '@angular/common';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-home',
   imports: [
-    VerticalListComponent,
-    AccountComponent
+    MatButton,
+    MatIconModule,
+    MatListModule,
+    RouterLink,
+    MaskCardNumberPipe,
+    CurrencyPipe,
+    MatProgressSpinner
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
   private readonly dashboardService = inject(DashboardService);
 
   readonly accounts = this.dashboardService.accounts;
@@ -26,4 +36,5 @@ export class DashboardComponent implements OnInit{
   reload() {
     this.dashboardService.getAccounts();
   }
+
 }

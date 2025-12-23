@@ -1,0 +1,27 @@
+<section class="container">
+  <mat-card class="card" appearance="raised">
+    <mat-card-header>
+      <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="form" [formGroup]="this.loginForm">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [formControl]="this.loginForm.controls.email">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput type="password" [formControl]="this.loginForm.controls.password">
+        </mat-form-field>
+        @if (this.errorMessage()) {
+          <div class="error">{{ this.errorMessage() }}</div>
+        }
+        <button matButton="filled"
+                type="submit"
+                [disabled]="!this.loginForm.valid"
+                (click)="this.onSubmit()">Login
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>

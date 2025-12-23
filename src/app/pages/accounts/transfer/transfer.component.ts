@@ -1,46 +1,53 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {AccountService} from '../accounts.service';
-import {ActivatedRoute} from '@angular/router';
+import {ChangeDetectionStrategy, Component, computed, effect, inject, input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {LineInputComponent} from '../../../shared/components/line-input/line-input.component';
-import {DropdownSelectorComponent} from '../../../shared/components/dropdown-selector/dropdown-selector.component';
+import {TransferService} from './transfer.service';
+import {MatButton} from '@angular/material/button';
+import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
+import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
+import {MatOption, MatSelect} from '@angular/material/select';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-transfer',
   imports: [
-    LineInputComponent,
     ReactiveFormsModule,
-    DropdownSelectorComponent
+    RouterLink,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatCardTitle,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatSelect,
+    MatOption
   ],
   templateUrl: './transfer.component.html',
   styleUrl: './transfer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TransferComponent {
-  protected accountService = inject(AccountService)
-  private route = inject(ActivatedRoute);
+export class TransferComponent implements OnInit {
+  private transferService = inject(TransferService)
 
-  readonly userId = Number(this.route.snapshot.paramMap.get('id'));
+  readonly accounts = this.transferService.accounts;
+  readonly account = this.transferService.account;
+  readonly id = input.required({transform: (value: string) => Number(value)});
+  readonly otherAccounts = computed(() => this.accounts().filter(account => account.id !== this.id()));
 
-  protected transactionForm = new FormGroup({
-    id: new FormControl(Date.now(), {
+  protected transferForm = new FormGroup({
+    senderId: new FormControl(NaN, {
       nonNullable: true,
       validators: [Validators.required]
     }),
 
-    senderId: new FormControl(this.userId, {
+    receiverId: new FormControl(NaN, {
       nonNullable: true,
       validators: [Validators.required]
     }),
 
-    receiverId: new FormControl(0, {
+    amount: new FormControl(1, {
       nonNullable: true,
-      validators: [Validators.required]
-    }),
-
-    amount: new FormControl(0, {
-      nonNullable: true,
-      validators: [Validators.required, Validators.min(1)]
     }),
 
     note: new FormControl('', {
@@ -48,9 +55,24 @@ export class TransferComponent {
     })
   })
 
+  constructor() {
+    effect(() => {
+      this.transferForm.controls.senderId.setValue(this.id());
+    });
+
+    effect(() => {
+      const ballance = this.account()?.balance ?? 0;
+      this.transferForm.controls.amount.setValidators([Validators.required, Validators.min(1), Validators.max(ballance)])
+    });
+  }
+
+  ngOnInit(): void {
+    this.transferService.getAccounts(this.id());
+    this.transferForm.controls.senderId.disable()
+  }
+
   protected onSubmit() {
-    setTimeout(() => {
-      this.accountService.addTransaction(this.transactionForm.getRawValue());
-    }, 2000);
+    this.transferService.addTransaction(this.transferForm.getRawValue());
+    alert('Transaction added successfully');
   }
 }

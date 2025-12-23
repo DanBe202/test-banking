@@ -3,18 +3,23 @@ import {Account} from '../../../core/types/account.type';
 import {ApiService} from '../../../core/api/api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class DashboardService {
+export class TransactionsService {
   private readonly apiService = inject(ApiService);
 
-  readonly accounts = signal<Account[]>([]);
   readonly loading = signal(false);
 
-  getAccounts(): void {
+  readonly account = signal<Account | null>(null);
+
+  getAccount(id: number): void {
     this.loading.set(true);
     this.apiService.load().subscribe(accounts => {
-      this.accounts.set(accounts);
+      const account = accounts.find((account) => account.id === id);
+      if (!account) {
+        throw new Error('Account not found');
+      }
+      this.account.set(account);
       this.loading.set(false);
     })
   }

@@ -1,18 +1,31 @@
-<div class="page-container">
+<section class="container">
   <div class="header">
     <div class="title">
       <h2>My Accounts</h2>
     </div>
-    <button class="btn-reload" (click)="this.reload()">Reload</button>
+    <button matButton="filled" (click)="this.reload()">
+      <mat-icon>refresh</mat-icon>
+      Reload
+    </button>
   </div>
-  <app-vertical-list [isLoading]="this.loading()">
-    @if (this.accounts().length === 0) {
-      <p>No accounts.</p>
-    }
-    @for (account of this.accounts(); track account.id) {
-      <app-account [account]="account" />
-    }
-  </app-vertical-list>
-
-</div>
-
+  @if (loading()) {
+    <mat-spinner class="loading"></mat-spinner>
+  } @else {
+    <mat-nav-list>
+      @for (account of this.accounts(); track account.id) {
+        <a
+          mat-list-item
+          [routerLink]="['/', 'accounts', account.id]">
+          <mat-icon matListItemIcon>credit_card</mat-icon>
+          <span matListItemTitle>{{ account.name }}</span>
+          <span matListItemLine>{{ account.number | maskCardNumber }}</span>
+          <div matListItemMeta>
+            <span>{{ account.balance | currency: 'EUR' }}</span>
+          </div>
+        </a>
+      } @empty {
+        <h3>There are no accounts.</h3>
+      }
+    </mat-nav-list>
+  }
+</section>

@@ -25,46 +25,46 @@ Build a small **banking-style web app** in **Angular** that demonstrates fundame
   - Clean, readable code
 ---
 ## Functional Requirements
-### 1) Authentication (mock)
+### 1) Authentication (mock) X
 Create a simple **login flow** (no real backend):
-- **Login page**
-  - Fields: **email**, **password**
+- **Login page** X
+  - Fields: **email**, **password** x
   - Client-side validation:
-    - Email: valid email format
-    - Password: minimum length **6**
+    - Email: valid email format x
+    - Password: minimum length **6** x
 - **Hardcoded valid credentials**:
-  - Email: `test@bank.com`
-  - Password: `123456`
+  - Email: `test@bank.com` x
+  - Password: `123456` x
 - On successful login:
-  - Store a **mock token** in `localStorage` (e.g. `“mock-token”`).
-  - Navigate to the **main app** (e.g., `/accounts`).
+  - Store a **mock token** in `localStorage` (e.g. `“mock-token”`). x
+  - Navigate to the **main app** (e.g., `/accounts`). x
 - On app start:
-  - If a token exists in `localStorage`, **skip the login page** and go directly to the main app.
+  - If a token exists in `localStorage`, **skip the login page** and go directly to the main app.  x
 - Add a **Logout** action (e.g., in a header or menu):
-  - Clears the token from `localStorage`.
-  - Navigates back to the login page.
+  - Clears the token from `localStorage`.  x
+  - Navigates back to the login page. x
 ---
-### 2) Accounts Overview
+### 2) Accounts Overview 
 Create an **Accounts** screen that shows the user’s accounts.
 - Load a list of accounts from:
   - A **local JSON file** (e.g. `assets/accounts.json`) or
-  - A mocked Angular service (simulating `HttpClient`).
-- For each account, display:
-  - **Account name**
+  - A mocked Angular service (simulating `HttpClient`). 
+- For each account, display: x
+  - **Account name** 
   - **Masked account number** (e.g. `****6789`)
   - **Current balance with currency** (e.g. `€1,234.56`)
 - Clicking/tapping an account:
-  - Navigates to a **Transactions** screen for that account (e.g. `/accounts/:id`).
+  - Navigates to a **Transactions** screen for that account (e.g. `/accounts/:id`). x
 - Add a **Refresh** action:
-  - Can be a button like “Reload accounts”.
-  - Simulate a “network call” by:
-    - Showing a short delay
-    - Re-reading the mock data (or re-calling the service).
+  - Can be a button like “Reload accounts”. 
+  - Simulate a “network call” by: 
+    - Showing a short delay 
+    - Re-reading the mock data (or re-calling the service). 
 ---
 ### 3) Transactions List
 For the **selected account**, display its recent transactions.
-- Route example: `/accounts/:id/transactions` (or simply `/accounts/:id`).
-- Show a list of transactions:
+- Route example: `/accounts/:id/transactions` (or simply `/accounts/:id`). x
+- Show a list of transactions: 
   - Sorted by **date, newest first**, toggleable newest/oldest first.
   - For each transaction, show:
     - **Merchant/description**
